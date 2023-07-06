@@ -14,6 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import co.micol.prj.MainCommand;
 import co.micol.prj.common.Command;
+import co.micol.prj.member.command.AjaxIdCheck;
+import co.micol.prj.member.command.AjaxMemberSearchList;
+import co.micol.prj.member.command.MemberJoinForm;
+import co.micol.prj.member.command.MemberLogin;
+import co.micol.prj.member.command.MemberLoginForm;
+import co.micol.prj.member.command.MemberLogout;
+import co.micol.prj.member.command.memberList;
 
 @WebServlet("*.do")
 public class FrontController extends HttpServlet {
@@ -28,7 +35,13 @@ public class FrontController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 		//호출하는 이름들의 집합
 		map.put("/main.do", new MainCommand());
-		
+		map.put("/memberLoginForm.do", new MemberLoginForm());
+		map.put("/memberLogin.do", new MemberLogin());
+		map.put("/memberLogout.do", new MemberLogout());
+		map.put("/memberJoinForm.do", new MemberJoinForm());
+		map.put("/ajaxIdCheck.do", new AjaxIdCheck());//ajax아이디중복체크
+		map.put("/memberList.do", new memberList());//멤버목록보기
+		map.put("/ajaxMemberSearchList.do", new AjaxMemberSearchList());
 	}
 
 	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

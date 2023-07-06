@@ -5,31 +5,43 @@
 	
 	<select id="memberSelectList" resultType="co.micol.prj.member.service.MemberVO">
 		SELECT *
-		  FROM MEMBER
-		<if test="key==1"> WHERE MEMBER_NAME LIKE '%'|| #{val}|| '%'</if>
+		  FROM member
+		<if test="key == 'name'"> WHERE MEMBER_NAME LIKE '%'|| #{val} || '%'</if>
+		<if test="key == 'tel'"> WHERE MEMBER_TEL  LIKE '%'|| #{val} || '%'</if>
+		<if test="key == 'address'"> WHERE MEMBER_ADDRESS  LIKE '%'|| #{val} || '%'</if>
+		<if test="key == 'all'"> WHERE 1=1</if>
 	</select>
 		
 	<select id="memberSelect" resultType="co.micol.prj.member.service.MemberVO">
-		SELECT * FROM MEMBER WHERE MEMBER_ID =#{MEMBERID}
-		<if test="memberPassword != null" >AND MEMBER_PASSWORD = #{memberPassword}</if>
+		SELECT * FROM member WHERE member_id =#{memberId}
+		<if test="memberPassword != null" >AND member_password = #{memberPassword}</if>
 	</select>
 	
-	<insert id="memberInsert">
-	
+	<insert id="memberInsert" parameterType="co.micol.prj.member.service.MemberVO">
+		INSERT INTO MEMBER(member_id , member_password , member_name , member_tel , member_address)
+		VALUES(#{memberId} , #{memberPassword} , #{memberName} , #{memberTel} , #{memberAddress})
 	</insert>
 	
-	<update id="memberUpdate">
-	
+	<update id="memberUpdate" parameterType="co.micol.prj.member.service.MemberVO">
+		UPDATE MEMBER
+		<set>
+			<if test="memberPassword != null">MEMBER_PASSWORD = #{memberPassword},</if>
+			<if test="memberName != null">MEMBER_NAME = #{memberName},</if>
+			<if test="memberTel != null">MEMBER_TEL = #{memberTel},</if>
+			<if test="memberAddress != null">MEMBER_ADDRESS = #{memberAddress},</if>
+			<if test="memberAuthor != null">MEMBER_AUTHOR = #{memberAuthor},</if>
+		</set>
+		WHERE member_id = #{memberId}
 	</update>
 
-	<delete id="memberDelete" >
-	
+	<delete id="memberDelete" parameterType="co.micol.prj.member.service.MemberVO">
+		delete from member where member_id = #{memberId}
 	</delete>
 	
 	<select id="isMemberIdCheck" resultType="boolean">
 		SELECT 
 		COUNT(*) AS ID
-		FROM MEMBER WHERE MEMBER_ID = #{id}
+		FROM MEMBER WHERE member_id = #{id}
 		
 	</select>
 
